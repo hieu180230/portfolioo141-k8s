@@ -8,6 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/hieu180230/portfolioo141-k8s.git'
     targetRevision: HEAD
+    path: ./
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: portfolioo141 
