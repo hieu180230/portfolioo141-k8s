@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: portfolioo141
-          image: hieu18022004/portfolioo141:2026-04-04-6e715d0
+          image: hieu18022004/portfolioo141:2026-04-06-a3b6c71
           ports:
             - containerPort: 3000
           #resources restriction
