@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: portfolio-ingress
-  annotation:
+  annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
@@ -19,6 +19,6 @@ spec:
             port:
               number: 80
   tls:
-    - host:
+    - hosts:
       - nnhieu.duckdns.org
       secretName: portfolio-tls-secret
