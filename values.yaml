@@ -1,0 +1,9 @@
+frontend:
+  image: "hieu18022004/portfolio-frontend"
+  tag: "stable" 
+  replicas: 2
+
+ingress:
+  domain: "nnhieu.duckdns.org"
+  tlsSecretName: "portfolio-tls-secret"
+  rateLimitMiddleware: "portfolioo141-brutal-rate-limit@kubernetescrd"

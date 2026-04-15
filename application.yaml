@@ -9,6 +9,10 @@ spec:
     repoURL: 'https://github.com/hieu180230/portfolioo141-k8s.git'
     targetRevision: HEAD
     path: ./
+    helm:
+      parameters:
+        - name: frontend.tag
+          value: "stable"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: portfolioo141 

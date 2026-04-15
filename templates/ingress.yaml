@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-  - host: nnhieu.duckdns.org
+  - host: {{ .Values.ingress.domain }}
     http:
       paths:
       - path: /
@@ -20,5 +20,5 @@ spec:
               number: 80
   tls:
     - hosts:
-      - nnhieu.duckdns.org
-      secretName: portfolio-tls-secret
+      - {{ .Values.ingress.domain }}
+      secretName: {{ .Values.ingress.tlsSecretName }}
