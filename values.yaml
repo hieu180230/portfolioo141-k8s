@@ -1,5 +1,5 @@
 frontend:
-  image: "hieu18022004/portfolio-frontend"
+  image: "hieu18022004/portfolioo141"
   tag: "stable" 
   replicas: 2
 
