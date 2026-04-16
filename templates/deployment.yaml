@@ -6,6 +6,7 @@ metadata:
     app: portfolioo141
 spec:
   replicas: {{ .Values.frontend.replicas }}
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: portfolioo141
