@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: p-service-be
+  namespace: portfolio-backend
+  labels:
+    app: portfolioo141-be
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP
+  selector:
+    app: portfolioo141-be
