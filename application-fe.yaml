@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/hieu180230/portfolioo141-k8s.git'
-    targetRevision: main
+    targetRevision: HEAD
     path: ./frontend-chart
     helm:
       parameters:
