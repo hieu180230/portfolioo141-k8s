@@ -1,0 +1,6 @@
+apiVersion: v2
+name: portfolioo141-backend
+description: A Helm chart for Rust Backend
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

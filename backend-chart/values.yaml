@@ -1,0 +1,4 @@
+backend:
+  image: "hieu18022004/portfolioo141-be"
+  tag: "stable" 
+  replicas: 1

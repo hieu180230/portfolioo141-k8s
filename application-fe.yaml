@@ -1,19 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: portfolioo141
+  name: portfolioo141-fe
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: 'https://github.com/hieu180230/portfolioo141-k8s.git'
-    targetRevision: HEAD
-    path: ./
+    targetRevision: main
+    path: ./frontend-chart
     helm:
       parameters:
         - name: frontend.tag
-          value: "2026-04-16-c6fc82b"
-        - name: backend.tag
           value: "2026-04-16-c6fc82b"
   destination:
     server: 'https://kubernetes.default.svc'

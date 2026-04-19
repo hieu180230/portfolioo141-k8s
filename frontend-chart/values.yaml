@@ -3,11 +3,6 @@ frontend:
   tag: "stable" 
   replicas: 2
 
-backend:
-  image: "hieu18022004/portfolioo141-be"
-  tag: "stable" 
-  replicas: 1
-
 ingress:
   domain: "nnhieu.duckdns.org"
   tlsSecretName: "portfolio-tls-secret"
