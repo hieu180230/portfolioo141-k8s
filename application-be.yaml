@@ -12,7 +12,7 @@ spec:
     helm:
       parameters:
         - name: backend.tag
-          value: "2026-04-20-132bf09"
+          value: "2026-04-20-8a59d48"
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: portfolio-backend
