@@ -1,6 +1,6 @@
 frontend:
   image: "hieu18022004/portfolioo141"
-  tag: "stable" 
+  tag: "2026-04-20-8a59d48" 
   replicas: 2
 
 env:

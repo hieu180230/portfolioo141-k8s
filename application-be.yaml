@@ -10,9 +10,8 @@ spec:
     targetRevision: HEAD
     path: backend-chart
     helm:
-      parameters:
-        - name: backend.tag
-          value: "2026-04-20-132bf09"
+      valueFiles:
+        - values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: portfolio-backend
