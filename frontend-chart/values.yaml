@@ -1,11 +1,9 @@
 frontend:
   image: "hieu18022004/portfolioo141"
-  tag: "2026-04-20-8a59d48" 
+  tag: "2026-04-20-9f910c5"
   replicas: 2
-
 env:
   internalApiUrl: "http://p-service-be.portfolio-backend.svc.cluster.local:8000"
-
 ingress:
   domain: "nnhieu.duckdns.org"
   tlsSecretName: "portfolio-tls-secret"
