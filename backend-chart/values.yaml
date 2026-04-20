@@ -1,4 +1,4 @@
 backend:
   image: "hieu18022004/portfolioo141-be"
-  tag: "2026-04-20-9f910c5"
+  tag: "2026-04-20-213d5db"
   replicas: 1

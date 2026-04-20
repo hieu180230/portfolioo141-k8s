@@ -1,6 +1,6 @@
 frontend:
   image: "hieu18022004/portfolioo141"
-  tag: "2026-04-20-9f910c5"
+  tag: "2026-04-20-213d5db"
   replicas: 2
 env:
   internalApiUrl: "http://p-service-be.portfolio-backend.svc.cluster.local:8000"
