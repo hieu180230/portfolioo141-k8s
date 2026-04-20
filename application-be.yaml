@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/hieu180230/portfolioo141-k8s.git'
     targetRevision: HEAD
-    path: ./backend-chart
+    path: backend-chart
     helm:
       parameters:
         - name: backend.tag
