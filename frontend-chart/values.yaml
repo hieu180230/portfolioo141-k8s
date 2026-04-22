@@ -5,6 +5,7 @@ frontend:
 
 env:
   internalApiUrl: "http://p-service-be.portfolio-backend.svc.cluster.local:8000"
+  r2CloudflareUrl: "https://pub-b4c7a5ad511a4c668ed49987987a8fe5.r2.dev"
 
 ingress:
   domain: "nnhieu.duckdns.org"
