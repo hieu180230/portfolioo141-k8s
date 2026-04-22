@@ -23,7 +23,7 @@ spec:
           env:
             - name: API_URL
               value: "{{ .Values.env.internalApiUrl }}"
-            - name: NEXT_PUBLIC_R2_PUBLIC_URL
+            - name: R2_PUBLIC_URL
               value: "{{ .Values.env.r2CloudflareUrl }}"
           #resources restriction
           resources:
