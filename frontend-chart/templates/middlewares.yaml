@@ -1,0 +1,9 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: frontend-middleware
+  namespace: portfolioo141
+spec:
+  rateLimit:
+    average: 150 
+    burst: 100

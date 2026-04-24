@@ -1,24 +1,42 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: portfolio-ingress
+#   annotations:
+#     cert-manager.io/cluster-issuer: letsencrypt-prod
+#     traefik.ingress.kubernetes.io/router.tls: "true"
+# spec:
+#   ingressClassName: traefik
+#   rules:
+#   - host: {{ .Values.ingress.domain }}
+#     http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: p-service
+#             port:
+#               number: 80
+#   tls:
+#     - hosts:
+#       - {{ .Values.ingress.domain }}
+#       secretName: {{ .Values.ingress.tlsSecretName }}
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: portfolio-ingress
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    traefik.ingress.kubernetes.io/router.tls: "true"
+  name: portfolio-ingressroute
 spec:
-  ingressClassName: traefik
-  rules:
-  - host: {{ .Values.ingress.domain }}
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: p-service
-            port:
-              number: 80
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`{{ .Values.ingress.domain }}`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: p-service
+          port: 80
+      middlewares:
+        - name: frontend-middleware
   tls:
-    - hosts:
-      - {{ .Values.ingress.domain }}
-      secretName: {{ .Values.ingress.tlsSecretName }}
+    secretName: {{ .Values.ingress.tlsSecretName }}
