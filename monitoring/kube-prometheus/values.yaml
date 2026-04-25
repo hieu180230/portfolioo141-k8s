@@ -51,3 +51,6 @@ kube-prometheus-stack:
             resources:
               requests:
                 storage: 1Gi
+
+ingress:
+  domain: "monitor.nnhieu.duckdns.org"

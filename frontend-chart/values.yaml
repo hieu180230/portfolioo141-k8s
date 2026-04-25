@@ -8,4 +8,4 @@ env:
 ingress:
   domain: "nnhieu.duckdns.org"
   tlsSecretName: "portfolio-tls-secret"
-  rateLimitMiddleware: "portfolioo141-brutal-rate-limit@kubernetescrd"
+  # rateLimitMiddleware: "portfolioo141-brutal-rate-limit@kubernetescrd"
