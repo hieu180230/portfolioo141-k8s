@@ -8,21 +8,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://prometheus-community.github.io/helm-charts
-    chart: kube-prometheus-stack
+    repoURL: 'https://github.com/hieu180230/portfolioo141-k8s.git'
     path: monitoring/kube-prometheus
-    targetRevision: 58.0.0
-    helm:
-      values: |
-        grafana:
-          adminPassword: "admin"
-          sidecar:
-            dashboards:
-              enabled: true
-        prometheus:
-          prometheusSpec:
-            serviceMonitorSelectorNilUsesHelmValues: false
-            
+    targetRevision: main
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
