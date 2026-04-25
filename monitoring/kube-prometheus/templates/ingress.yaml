@@ -32,7 +32,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`{{ .Values.ingress.domain }}`) && PathPrefix(`/`)
+    - match: Host(`{{ .Values.ingress.domain }}`)
       kind: Rule
       services:
         - name: kube-prometheus-stack-grafana
