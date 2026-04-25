@@ -54,3 +54,4 @@ kube-prometheus-stack:
 
 ingress:
   domain: "nnhieu-grafana.duckdns.org"
+  tlsSecretName: "grafana-tls-secret"

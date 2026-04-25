@@ -30,12 +30,12 @@ metadata:
   namespace: monitoring
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - match: Host(`{{ .Values.ingress.domain }}`)
       kind: Rule
       services:
         - name: kube-prometheus-stack-grafana
           port: 80
-  # tls:
-  #   secretName: {{ .Values.ingress.tlsSecretName }}
+  tls:
+    secretName: {{ .Values.ingress.tlsSecretName }}
