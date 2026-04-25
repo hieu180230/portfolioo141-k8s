@@ -30,7 +30,7 @@ metadata:
   namespace: monitoring
 spec:
   entryPoints:
-    - websecure
+    - web
   routes:
     - match: Host(`{{ .Values.ingress.domain }}`) && PathPrefix(`/`)
       kind: Rule
