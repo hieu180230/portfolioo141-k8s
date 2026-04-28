@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: portfolioo141-umami
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/hieu180230/portfolioo141-k8s.git'
+    targetRevision: HEAD
+    path: monitoring/umami
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: analytics
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      # If you delete a file in GitHub, Argo will delete the pod in K3s
+      prune: true
+      # If someone manually edits a pod in K3s via CLI, Argo will instantly overwrite it to match GitHub
+      selfHeal: true

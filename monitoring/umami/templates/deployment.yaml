@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: umami-web
+  namespace: analytics
+  labels:
+    app: umami-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: umami-web
+  template:
+    metadata:
+      labels:
+        app: umami-web
+    spec:
+      containers:
+        - name: umami
+          image: ghcr.io/umami-software/umami:postgresql-latest
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: umami-secrets
+                  key: database-url
+            - name: APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: umami-secrets
+                  key: app-secret
+          # Thêm cái khiên bảo vệ tài nguyên để nó không nuốt sạch RAM của K3s
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+          imagePullPolicy: Always

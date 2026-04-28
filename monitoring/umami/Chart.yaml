@@ -1,0 +1,5 @@
+apiVersion: v2
+name: portfolioo141-umami
+description: Wrapper chart for portfolioo141-umami
+type: application
+version: 1.0.0

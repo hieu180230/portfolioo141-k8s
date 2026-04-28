@@ -1,0 +1,18 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: umami-ingressroute
+  namespace: analytics
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`{{ .Values.ingress.domain }}`)
+      kind: Rule
+      services:
+        - name: u-service
+          port: 80
+      middlewares:
+        - name: analytics-middleware
+  tls:
+    secretName: {{ .Values.ingress.tlsSecretName }}

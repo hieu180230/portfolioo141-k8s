@@ -37,5 +37,7 @@ spec:
       services:
         - name: kube-prometheus-stack-grafana
           port: 80
+      middlewares:
+        - name: monitor-middleware
   tls:
     secretName: {{ .Values.ingress.tlsSecretName }}

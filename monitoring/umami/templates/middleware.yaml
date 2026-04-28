@@ -1,0 +1,9 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: analytics-middleware
+  namespace: analytics
+spec:
+  rateLimit:
+    average: 10
+    burst: 15

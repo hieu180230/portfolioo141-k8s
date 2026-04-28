@@ -1,0 +1,9 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: monitor-middleware
+  namespace: monitoring
+spec:
+  rateLimit:
+    average: 10
+    burst: 15
