@@ -25,6 +25,8 @@ spec:
               value: "{{ .Values.env.internalApiUrl }}"
             - name: R2_PUBLIC_URL
               value: "{{ .Values.env.r2CloudflareUrl }}"
+            - name: UMAMI_URL
+              value: "{{ .Values.env.umamiUrl }}"
           #resources restriction
           resources:
             requests:
