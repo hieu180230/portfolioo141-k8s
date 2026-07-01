@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: mock-nvidia-gpu-plugin
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: mock-gpu
+  template:
+    metadata:
+      labels:
+        app: mock-gpu
+    spec:
+      tolerations:
+        # Bắt buộc phải có để Plugin chạy được trên cả Master Node của K3s
+        - key: "node-role.kubernetes.io/master"
+          operator: "Exists"
+          effect: "NoSchedule"
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"
+      containers:
+      - name: fake-device-plugin
+        image: "simonkrenger/fake-device-plugin:latest" 
+        env:
+          - name: FAKE_DEVICE_NAME
+            value: "nvidia.com/gpu"
+          - name: FAKE_DEVICE_COUNT
+            value: "4" 
+        volumeMounts:
+          - name: device-plugin
+            mountPath: /var/lib/kubelet/device-plugins
+      volumes:
+        - name: device-plugin
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
