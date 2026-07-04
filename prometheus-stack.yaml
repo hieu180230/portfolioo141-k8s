@@ -14,7 +14,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
-  
+
   syncPolicy:
     automated:
       prune: true
@@ -22,3 +22,10 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+
+  ignoreDifferences:
+    - group: apps
+      kind: StatefulSet
+      name: kube-prometheus-stack-loki
+      jsonPointers:
+        - /spec/volumeClaimTemplates
