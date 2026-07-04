@@ -49,20 +49,6 @@ kube-prometheus-stack:
         jsonData:
           maxLines: 1000
 
-  loki-stack:
-    loki:
-      enabled: true
-      isDefault: false
-      persistence:
-        enabled: true
-        storageClassName: local-path
-        size: 2Gi
-    promtail:
-      enabled: true
-      config:
-        clients:
-          - url: http://kube-prometheus-stack-loki.monitoring.svc.cluster.local:3100/loki/api/v1/push
-
   alertmanager:
     alertmanagerSpec:
       storage:
@@ -73,6 +59,20 @@ kube-prometheus-stack:
             resources:
               requests:
                 storage: 1Gi
+
+loki-stack:
+  loki:
+    enabled: true
+    isDefault: false
+    persistence:
+      enabled: true
+      storageClassName: local-path
+      size: 2Gi
+  promtail:
+    enabled: true
+    config:
+      clients:
+        - url: http://kube-prometheus-stack-loki.monitoring.svc.cluster.local:3100/loki/api/v1/push
 
 ingress:
   domain: 'nnhieu-grafana.duckdns.org'
