@@ -2,7 +2,7 @@ kube-prometheus-stack:
   prometheus:
     prometheusSpec:
       retention: 5d
-      retentionSize: "5GB"
+      retentionSize: '5GB'
       resources:
         requests:
           memory: 1Gi
@@ -12,8 +12,8 @@ kube-prometheus-stack:
       storageSpec:
         volumeClaimTemplate:
           spec:
-            storageClassName: local-path 
-            accessModes: ["ReadWriteOnce"]
+            storageClassName: local-path
+            accessModes: ['ReadWriteOnce']
             resources:
               requests:
                 storage: 8Gi
@@ -23,7 +23,7 @@ kube-prometheus-stack:
       ruleSelectorNilUsesHelmValues: false
 
   grafana:
-    adminPassword: "admin"
+    adminPassword: 'admin'
     persistence:
       enabled: true
       storageClassName: local-path
@@ -34,12 +34,31 @@ kube-prometheus-stack:
         providers:
           - name: default
             orgId: 1
-            folder: ""
+            folder: ''
             type: file
             disableDeletion: false
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default
+    additionalDataSources:
+      - name: Loki
+        type: loki
+        url: http://kube-prometheus-stack-loki:3100
+        access: proxy
+        isDefault: false
+        jsonData:
+          maxLines: 1000
+
+  loki-stack:
+    loki:
+      enabled: true
+      isDefault: false
+      persistence:
+        enabled: true
+        storageClassName: local-path
+        size: 2Gi
+    promtail:
+      enabled: true
 
   alertmanager:
     alertmanagerSpec:
@@ -47,11 +66,11 @@ kube-prometheus-stack:
         volumeClaimTemplate:
           spec:
             storageClassName: local-path
-            accessModes: ["ReadWriteOnce"]
+            accessModes: ['ReadWriteOnce']
             resources:
               requests:
                 storage: 1Gi
 
 ingress:
-  domain: "nnhieu-grafana.duckdns.org"
-  tlsSecretName: "grafana-tls-secret"
+  domain: 'nnhieu-grafana.duckdns.org'
+  tlsSecretName: 'grafana-tls-secret'
