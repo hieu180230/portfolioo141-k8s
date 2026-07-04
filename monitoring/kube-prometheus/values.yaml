@@ -28,18 +28,24 @@ kube-prometheus-stack:
       enabled: true
       storageClassName: local-path
       size: 1Gi
-    dashboardProviders:
-      dashboardproviders.yaml:
-        apiVersion: 1
-        providers:
-          - name: default
-            orgId: 1
-            folder: ''
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/default
+    dashboards:
+      default:
+        k8s-system:
+          gnetId: 3119
+          revision: 2
+          datasource: Prometheus
+    # dashboardProviders:
+    #   dashboardproviders.yaml:
+    #     apiVersion: 1
+    #     providers:
+    #       - name: default
+    #         orgId: 1
+    #         folder: ''
+    #         type: file
+    #         disableDeletion: false
+    #         editable: true
+    #         options:
+    #           path: /var/lib/grafana/dashboards/default
     additionalDataSources:
       - name: Loki
         type: loki
