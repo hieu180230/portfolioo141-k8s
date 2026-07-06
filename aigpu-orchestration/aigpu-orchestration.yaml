@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tiny-ai-engine
+  namespace: default
+  labels:
+    app: tiny-ai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tiny-ai
+  template:
+    metadata:
+      labels:
+        app: tiny-ai
+      # MỒI NHỬ PROMETHEUS: Bắt Prometheus tự động mò đến cào metrics của con AI này!
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8080'
+        prometheus.io/path: '/metrics'
+    spec:
+      volumes:
+        - name: brain-storage
+          emptyDir: {}
+
+      # BƯỚC 1: INIT CONTAINER - Tải não bộ 350MB về trước khi chạy AI
+      initContainers:
+        - name: model-downloader
+          image: curlimages/curl:latest
+          command: ['/bin/sh', '-c']
+          args:
+            - curl -L https://huggingface.co/Qwen/Qwen2-0.5B-Instruct-GGUF/resolve/main/qwen2-0_5b-instruct-q4_0.gguf -o /models/tiny-model.gguf
+          volumeMounts:
+            - name: brain-storage
+              mountPath: /models
+
+      # BƯỚC 2: CONTAINER CỐT LÕI - Lừa dối K8s và Phun Log cho Loki
+      containers:
+        - name: llama-cpp-server
+          image: ghcr.io/ggerganov/llama.cpp:server
+          args:
+            - '-m'
+            - '/models/tiny-model.gguf'
+            - '--host'
+            - '0.0.0.0'
+            - '--port'
+            - '8080'
+            - '-c'
+            - '1024' # Context siêu nhỏ để tiết kiệm RAM tối đa
+            - '-t'
+            - '2' # Dùng 2 lõi CPU
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: brain-storage
+              mountPath: /models
+
+          # ĐIỂM ĂN TIỀN MÔN ORCHESTRATION: Bắt K8s cấp 1 con Tesla K80 ảo!
+          resources:
+            requests:
+              cpu: '100m' # Chỉ xin 0.1 CPU để bypass kiểm duyệt
+              memory: '512Mi'
+            limits:
+              cpu: '2' # Giới hạn mút khung 2 CPU thật
+              memory: '1Gi' # Khóa mõm ở 1GB RAM
+              nvidia.com/gpu: '1' # Bùa chú cướp GPU ảo!
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tiny-ai-service
+  namespace: default
+spec:
+  selector:
+    app: tiny-ai
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
