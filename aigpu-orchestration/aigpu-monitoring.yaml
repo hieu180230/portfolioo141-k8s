@@ -1,0 +1,36 @@
+---
+# 1. Định nghĩa lại Service của AI (Bắt buộc phải có tên cổng là 'metrics-port')
+apiVersion: v1
+kind: Service
+metadata:
+  name: tiny-ai-service
+  namespace: default
+  labels:
+    app: tiny-ai
+spec:
+  selector:
+    app: tiny-ai
+  ports:
+    - name: metrics-port # Tên này là cái mỏ neo để Prometheus móc vào
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+
+---
+# 2. Khai sinh ServiceMonitor để dụ Prometheus đến cào dữ liệu
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: tiny-ai-monitor
+  namespace: default
+  labels:
+    release: kube-prometheus-stack # Dán nhãn để đội quân của ngài dễ nhận diện
+spec:
+  selector:
+    matchLabels:
+      app: tiny-ai # Trỏ chính xác vào con AI Llama
+  endpoints:
+    - port: metrics-port # Cắm vòi vào đúng cái mỏ neo vừa tạo ở trên
+      path: /metrics
+      interval: 10s # Ép hệ thống cứ 10 giây phải cào số liệu một lần
