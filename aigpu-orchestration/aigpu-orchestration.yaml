@@ -39,7 +39,7 @@ spec:
       # BƯỚC 2: CONTAINER CỐT LÕI - Lừa dối K8s và Phun Log cho Loki
       containers:
         - name: llama-cpp-server
-          image: ghcr.io/ggerganov/llama.cpp:server
+          image: ghcr.io/ggml-org/llama.cpp:server
           args:
             - '-m'
             - '/models/tiny-model.gguf'
