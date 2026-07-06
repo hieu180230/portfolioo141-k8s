@@ -83,10 +83,13 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: tiny-ai-monitor
-  namespace: default
+  namespace: monitoring
   labels:
     release: kube-prometheus-stack
 spec:
+  namespaceSelector:
+    matchNames:
+      - default
   selector:
     matchLabels:
       app: tiny-ai
