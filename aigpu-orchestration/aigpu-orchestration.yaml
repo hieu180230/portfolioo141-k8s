@@ -51,6 +51,7 @@ spec:
             - '1024' # Context siêu nhỏ để tiết kiệm RAM tối đa
             - '-t'
             - '2' # Dùng 2 lõi CPU
+            - '--metrics'
           ports:
             - containerPort: 8080
           volumeMounts:
