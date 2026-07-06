@@ -1,4 +1,5 @@
 ---
+# 1. BỘ NÃO AI (Deployment)
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,17 +16,10 @@ spec:
     metadata:
       labels:
         app: tiny-ai
-      # MỒI NHỬ PROMETHEUS: Bắt Prometheus tự động mò đến cào metrics của con AI này!
-      annotations:
-        prometheus.io/scrape: 'true'
-        prometheus.io/port: '8080'
-        prometheus.io/path: '/metrics'
     spec:
       volumes:
         - name: brain-storage
           emptyDir: {}
-
-      # BƯỚC 1: INIT CONTAINER - Tải não bộ 350MB về trước khi chạy AI
       initContainers:
         - name: model-downloader
           image: curlimages/curl:latest
@@ -35,8 +29,6 @@ spec:
           volumeMounts:
             - name: brain-storage
               mountPath: /models
-
-      # BƯỚC 2: CONTAINER CỐT LÕI - Lừa dối K8s và Phun Log cho Loki
       containers:
         - name: llama-cpp-server
           image: ghcr.io/ggml-org/llama.cpp:server
@@ -48,36 +40,57 @@ spec:
             - '--port'
             - '8080'
             - '-c'
-            - '1024' # Context siêu nhỏ để tiết kiệm RAM tối đa
+            - '1024'
             - '-t'
-            - '2' # Dùng 2 lõi CPU
-            - '--metrics'
+            - '2'
+            - '--metrics' # Đã bật công tắc xả lũ dữ liệu
           ports:
             - containerPort: 8080
           volumeMounts:
             - name: brain-storage
               mountPath: /models
-
-          # ĐIỂM ĂN TIỀN MÔN ORCHESTRATION: Bắt K8s cấp 1 con Tesla K80 ảo!
           resources:
             requests:
-              cpu: '100m' # Chỉ xin 0.1 CPU để bypass kiểm duyệt
+              cpu: '100m'
               memory: '512Mi'
             limits:
-              cpu: '2' # Giới hạn mút khung 2 CPU thật
-              memory: '1Gi' # Khóa mõm ở 1GB RAM
-              nvidia.com/gpu: '1' # Bùa chú cướp GPU ảo!
+              cpu: '2'
+              memory: '1Gi'
+              nvidia.com/gpu: '1'
+
 ---
+# 2. CÁI VAN XẢ (Service) - Đã được vá cổng 8080 và dán nhãn
 apiVersion: v1
 kind: Service
 metadata:
   name: tiny-ai-service
   namespace: default
+  labels:
+    app: tiny-ai
 spec:
   selector:
     app: tiny-ai
   ports:
-    - protocol: TCP
-      port: 80
+    - name: metrics-port # Tên này để Prometheus ngửi thấy
+      protocol: TCP
+      port: 8080 # Mở thẳng cổng 8080
       targetPort: 8080
   type: ClusterIP
+
+---
+# 3. SỢI DÂY TRÓI HỒN (ServiceMonitor)
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: tiny-ai-monitor
+  namespace: default
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: tiny-ai
+  endpoints:
+    - port: metrics-port
+      path: /metrics
+      interval: 10s
